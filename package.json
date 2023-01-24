@@ -5,17 +5,22 @@
   "author": "nhannht",
   "license": "MIT",
   "dependencies": {
+    "@react-buddy/ide-toolbox": "^2.3.1",
     "postcss": "^8.4.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwindcss": "^3.2.4",
-    "@react-buddy/ide-toolbox": "^2.3.1"
+    "tailwindcss": "^3.2.4"
   },
   "scripts": {
-    "build": "node builder.mjs"
+    "build": "node build.mjs",
+    "build:setting": "node build.mjs --setting",
+    "build:default": "node build.mjs --default",
+    "build:background": "node build.mjs --background",
+    "build:content": "node build.mjs --content"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
+    "chokidar": "^3.5.3",
     "esbuild": "^0.15.13",
     "esbuild-css-modules-plugin": "^2.6.2",
     "esbuild-sass-plugin": "^2.4.0",

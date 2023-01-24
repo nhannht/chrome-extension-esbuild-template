@@ -6,9 +6,16 @@
     <link rel="stylesheet" href="tailwind.css">
 </head>
 <body>
-<div id="root"></div>
+<div class="bg-gradient-to-bl from-red-300 to-fuchsia-500 h-screen py-5">
+    <div id="root"></div>
+    <div class="container flex flex-col mx-auto place-items-center place-content-center">
+        <img src="logo192.png"
+             class="animate-spin"
+             alt="logo"/>
+        <div class="text-lg mt-5">This extension created by React + Esbuild</div>
+    </div>
+</div>
 
-<script src="setting.js"
-></script>
 </body>
+<script src="setting.js"></script>
 </html>

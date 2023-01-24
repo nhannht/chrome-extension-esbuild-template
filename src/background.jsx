@@ -1,1 +1,1 @@
-import React from 'react';
+console.log("Open web inspector to see this message");
