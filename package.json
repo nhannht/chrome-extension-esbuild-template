@@ -12,7 +12,11 @@
     "@react-buddy/ide-toolbox": "^2.3.1"
   },
   "scripts": {
-    "build": "node builder.mjs"
+    "build": "node build.mjs",
+    "build:setting": "node build.mjs --setting",
+    "build:default": "node build.mjs --default",
+    "build:background": "node build.mjs --background",
+    "build:content": "node build.mjs --content"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

@@ -1,6 +1,6 @@
 {
   "short_name": "Chrome extension with esbuild",
-  "name": "Nhannht-exension",
+  "name": "Chrome-extension-using-esbuild-and-react",
   "description": "Template design by nhannht",
   "author": "nhannht",
   "manifest_version": 3,
@@ -10,16 +10,15 @@
     "192": "logo192.png",
     "512": "logo512.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": {
       "16": "favicon.ico",
       "24": "logo192.png",
       "32": "logo512.png"
     },
-    "default_title": "Pop up",
+    "default_title": "Default title",
     "default_popup": "default.html"
   },
-
   "content_scripts": [
     {
       "matches": [
@@ -43,8 +42,7 @@
   "permissions": [
   ],
   "options_ui": {
-    "page": "settings.html",
+    "page": "setting.html",
     "open_in_tab": true
   }
-
 }
