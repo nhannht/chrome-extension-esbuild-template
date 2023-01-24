@@ -1,6 +1,6 @@
 {
   "name": "chrome-extension-esbuild-template",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "builder.mjs",
   "author": "nhannht",
   "license": "MIT",
@@ -13,17 +13,21 @@
   },
   "scripts": {
     "build": "node build.mjs",
+    "watch": "node build.mjs --watch",
     "build:setting": "node build.mjs --setting",
     "build:default": "node build.mjs --default",
     "build:background": "node build.mjs --background",
     "build:content": "node build.mjs --content"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
     "autoprefixer": "^10.4.13",
     "chokidar": "^3.5.3",
     "esbuild": "^0.15.13",
     "esbuild-css-modules-plugin": "^2.6.2",
     "esbuild-sass-plugin": "^2.4.0",
-    "fs-extra": "^10.1.0"
+    "fs-extra": "^10.1.0",
+    "husky": "^8.0.3"
   }
 }
