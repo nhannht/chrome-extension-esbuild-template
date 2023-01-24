@@ -1,6 +1,6 @@
 {
   "name": "chrome-extension-esbuild-template",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "main": "builder.mjs",
   "author": "nhannht",
   "license": "MIT",
