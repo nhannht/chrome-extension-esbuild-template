@@ -1,1 +1,1 @@
-import React from 'react';
+console.log("Content script loaded");

@@ -4,7 +4,7 @@ import React from 'react';
 export default function DefaultIndex() {
     const [number, setNumber] = React.useState(0);
     return (
-        <div className={"container w-full mx-auto p-4"}>
+        <div className={"container w-full mx-auto p-7"}>
             <div
                 className={"container p-4 flex flex-col place-content-center place-items-center" +
                     "place-self-center text-center"}>
