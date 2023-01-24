@@ -1,6 +1,6 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import SettingIndex from "./setting/SettingIndex";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import SettingIndex from './settingComponent/SettingIndex';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root?.render(
