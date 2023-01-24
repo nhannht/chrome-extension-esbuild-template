@@ -10,10 +10,7 @@ const defaultScript = process.argv.includes("--default");
 const content = process.argv.includes("--content");
 const background = process.argv.includes("--background");
 const setting = process.argv.includes("--settingComponent");
-/**
- * ESBuild Params
- * @link https://esbuild.github.io/api/#build-api
- */
+
 let entries = [];
 if (defaultScript) {
     entries.push("src/default.jsx");
