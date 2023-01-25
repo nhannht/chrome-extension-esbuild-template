@@ -31,5 +31,8 @@
     "esbuild-sass-plugin": "^2.4.0",
     "fs-extra": "^10.1.0",
     "husky": "^8.0.3"
+  },
+  "resolutions": {
+    "react-virtualized": "git+https://git@github.com/remorses/react-virtualized-fixed-import.git#9.22.3"
   }
 }
