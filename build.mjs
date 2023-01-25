@@ -1,8 +1,10 @@
 import esbuild from "esbuild";
 import {exec} from "child_process";
 import fs from "fs-extra";
-
+import chalk from "chalk";
 import chokidar from "chokidar";
+import emoji from "node-emoji";
+
 
 const watch = process.argv.includes("--watch");
 
@@ -37,58 +39,80 @@ const buildParams = {
     logLevel: "error",
     incremental: watch,
 };
+const esBuildText = chalk.blue('[esbuild] ')
 
-const build = () => {
-    console.log(`[esbuild] Cleaning build folder..`)
+function cleanBuildDir() {
+    console.log(esBuildText + ' Cleaning build folder ...  ')
     try {
         fs.removeSync("build");
     } catch (err) {
         console.error(err);
     }
-    console.log(`[esbuild] Copying public folder..`)
+}
+
+function copyPublicToBuild() {
+    console.log(esBuildText + ' Copying public folder ... ')
     try {
         fs.copySync("public", "build");
     } catch (err) {
         console.error(err);
     }
-    console.log(`[esbuild] Building..`);
-    const result = esbuild.build(buildParams).catch(() => process.exit(1));
+}
 
-    console.log(`[esbuild] Building tailwind..`);
+function cleanBuild() {
+    console.log(esBuildText + " Building.. ");
+    return esbuild.build(buildParams).catch(() => process.exit(1));
+}
+
+function buildTailwindcss() {
+    console.log(esBuildText + " Building tailwind..");
     try {
         exec("npx tailwindcss -o build/tailwind.css")
     } catch (err) {
         console.error(err);
     }
-    console.log(`[esbuild] Done`);
+}
+
+const build = () => {
+    cleanBuildDir();
+    copyPublicToBuild();
+    const result = cleanBuild();
+
+    buildTailwindcss();
+    console.log(esBuildText + "Done");
     return result;
 };
 
 
 if (watch) {
     (async () => {
-        console.log(`[esbuild] Watching..`)
+        cleanBuildDir();
+        console.log(esBuildText + ` Watching.. `)
         let result;
-        result = await build();
+        result = await cleanBuild()
+        copyPublicToBuild();
+        buildTailwindcss();
         return chokidar
             .watch(["src/**/*", "public/**/*"], {ignored: /(^|[/\\])\../, ignoreInitial: true})
             .on("all", async (event, path) => {
                 if (event === "change") {
                     console.log("\n")
                     const start = new Date().getTime();
-                    console.log(`[esbuild] Rebuilding `);
+                    console.log(esBuildText + ` Rebuilding ${chalk.red.underline(path)} `);
                     if (result.rebuild) {
-                        await build()
+                        await result.rebuild();
+                        buildTailwindcss();
                     }
                     const end = new Date().getTime();
-                    console.log("[esbuild] Done, took " + (end - start) + "ms");
+                    console.log(`${esBuildText} Done, took ` + chalk.red.underline(end - start) + " ms");
                 }
             });
     })();
 } else {
     const start = new Date().getTime();
-    console.log("[esbuild] Start building")
-    await build()
+    console.log(esBuildText + `Start building`)
+    await build();
     const end = new Date().getTime();
-    console.timeEnd("[esbuild] Finish, took " + (end - start) + "ms")
+    console.log(esBuildText + ` Finish, took ` + chalk.red.underline(end - start) + ` ms `)
+    process.exit(0);
 }
