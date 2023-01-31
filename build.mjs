@@ -60,26 +60,30 @@ function copyPublicToBuild() {
 }
 
 function cleanBuild() {
-    console.log(esBuildText + " Building.. ");
-    return esbuild.build(buildParams).catch(() => process.exit(1));
+    console.time(esBuildText + " Building.. ");
+    return esbuild.build(buildParams).catch(() => {
+        process.exit(1);
+    })
 }
 
 function buildTailwindcss() {
-    console.log(esBuildText + " Building tailwind..");
+    console.time(esBuildText + " Building tailwind..");
     try {
         exec("npx tailwindcss -o build/tailwind.css")
+        console.timeEnd(esBuildText + " Building tailwind..");
     } catch (err) {
-        console.error(err);
+        console.timeEnd(err);
     }
 }
 
 const build = () => {
+    console.time(esBuildText + " Clean build")
     cleanBuildDir();
     copyPublicToBuild();
     const result = cleanBuild();
 
     buildTailwindcss();
-    console.log(esBuildText + "Done");
+    console.timeEnd(esBuildText + " Clean build")
     return result;
 };
 
@@ -96,23 +100,38 @@ if (watch) {
             .watch(["src/**/*", "public/**/*"], {ignored: /(^|[/\\])\../, ignoreInitial: true})
             .on("all", async (event, path) => {
                 if (event === "change") {
-                    console.log("\n")
-                    const start = new Date().getTime();
-                    console.log(esBuildText + ` Rebuilding ${chalk.red.underline(path)} `);
-                    if (result.rebuild) {
-                        await result.rebuild();
-                        buildTailwindcss();
+                    console.log(chalk.blue('[esbuild] ') + ' Change detected in ' + path + ' ...');
+                    if (result) {
+                        if (result.rebuild) {
+                            result.rebuild().then(() => {
+                                console.log(chalk.blue("[esbuild] ") + "Start rebuild")
+                                console.time(chalk.blue("rebuild done"))
+                                console.timeEnd(chalk.blue("rebuild done"))
+
+                            })
+                                .catch(e => {
+                                    console.time(chalk.red("rebuild failed"))
+                                    console.log(e);
+                                    console.timeEnd(chalk.red("rebuild failed"))
+                                });
+                        }
+                    } else {
+                        console.log(chalk.blue('[esbuild] ') + ' Building ...')
+                        console.time(chalk.blue("build done"))
+                        result = await cleanBuild();
+                        console.timeEnd(chalk.blue("build done"))
                     }
-                    const end = new Date().getTime();
-                    console.log(`${esBuildText} Done, took ` + chalk.red.underline(end - start) + " ms");
+
+
                 }
             });
     })();
 } else {
     const start = new Date().getTime();
     console.log(esBuildText + `Start building`)
+    console.time(esBuildText + " Finish, took ")
     await build();
     const end = new Date().getTime();
-    console.log(esBuildText + ` Finish, took ` + chalk.red.underline(end - start) + ` ms `)
+    console.timeEnd(esBuildText + " Finish, took ")
     process.exit(0);
 }
